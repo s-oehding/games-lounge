@@ -11,7 +11,8 @@ export default {
   name: 'app',
   components: {
     Timeline
-  }
+  },
+  mounted () {}
 }
 </script>
 
@@ -22,6 +23,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  height: calc(100vh - 60px);
+  max-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  padding-top: 150px;
 }
 
 
@@ -30,7 +36,7 @@ export default {
 body, html {
 margin: 0;
 padding: 0;
-height:100%;
+max-height: calc(100vh - 60px);
 width:100%;
 }
 body {
@@ -41,8 +47,7 @@ body {
   .main-container {
     width: auto;
     overflow-x: scroll;
-    height: 100vh;
-    max-height: 100vh;
+    // max-height: calc(100vh - 60px);
   }
 }
 .footer {
