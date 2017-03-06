@@ -13,13 +13,14 @@
   },
   "dependencies": {
     "igdb-api-node": "^2.0.2",
+    "jquery": "^3.1.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "net": "^1.0.2",
     "slick-carousel": "^1.6.0",
     "tls": "0.0.1",
     "vue": "^2.2.1",
-    "vue-router": "^2.2.0",
+    "vue-router": "^2.3.0",
     "vue-style-loader": "^2.0.3"
   },
   "devDependencies": {

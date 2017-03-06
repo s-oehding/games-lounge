@@ -1,79 +1,55 @@
 <template>
-  <div>
-    <nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">Games Timeline</a>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-        <form v-on:submit.prevent="fetchGames" class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search Games" v-model="searchString">
-          <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="fetchGames">Search</button>
-        </form>
-      </div>
-    </nav>
-    <ul class="timeline timeline-horizontal">
-      <timeline-item
-        v-if="ready"
-        v-for="(game, index) in sortedGames.games"
-        :key="game.first_release_date"
-        :cover="game.cover"
-        :developer="game.aggregated_rating"
-        :name="game.name"
-        :releasedate="game.first_release_date | toDate"
-        :summary="game.summary"
-        ></timeline-item>
-    </ul>
-  </div>
+  <section id="timeline">
+    <div id="timelineWrapper" class="timeline-wrapper">
+      <ul class="timeline timeline-horizontal">
+        <timeline-item
+          v-if="ready"
+          v-for="(game, index) in sorted.data"
+          :key="game.first_release_date"
+          :cover="game.cover"
+          :developer="game.aggregated_rating"
+          :name="game.name"
+          :releasedate="game.first_release_date | toDate"
+          :summary="game.summary"
+          ></timeline-item>
+      </ul>
+    </div>
+    <div class="controls">
+      <i v-on:click="scrollLeft" class="fa fa-chevron-left arrow arrow-left"></i>
+      <i v-on:click="scrollRight" class="fa fa-chevron-right arrow arrow-right"></i>
+    </div>
+  </section>
 </template>
 
 <script>
 import _ from 'lodash'
 import TimelineItem from './TimelineItem'
 import { toDate } from '../filters'
-import Igdb from 'igdb-api-node'
-global.mashapeKey = 'fPuFjE8ECkmshCTfCozasOklqoXjp1SZdgFjsnEWNh6uXrkfxP'
+
 export default {
   name: 'timeline',
   components: {
     TimelineItem
   },
+  props: ['data', 'ready'],
   data () {
     return {
-      games: {},
-      searchString: 'zelda',
-      ready: false
     }
   },
   mounted () {
-    this.fetchGames()
   },
   methods: {
-    fetchGames () {
-      Igdb.games({ limit: 50, offset: 0, search: this.searchString, fields: '*' })
-      .then(
-      response => {
-        this.games = response.body
-        this.$nextTick(function () {
-          this.ready = true
-        })
-      },
-      error => {
-        console.log(error)
-        this.ready = false
-      })
+    scrollLeft () {
+      document.getElementById('timelineWrapper').scrollLeft -= 250
+    },
+    scrollRight () {
+      document.getElementById('timelineWrapper').scrollLeft += 250
     }
   },
   computed: {
-    sortedGames: function () {
+    sorted: function () {
       return {
-        games: _.orderBy(this.games, ['Object', 'first_release_date'], ['asc'])
+        data: _.orderBy(this.data, ['Object', 'first_release_date'], ['asc'])
       }
     }
   },
@@ -85,6 +61,9 @@ export default {
 
 <style lang="scss">
 
+$brand-primary: turquoise;
+$gray-dark: #292b2c;
+
 $timeline-bg: #fbfbfb;
 $timeline-height: 10px;
 $timeline-border-color: #999;
@@ -95,7 +74,7 @@ $timeline-shadow: 0 0 2rem 0 rgba(#000,0.25), inset 0 0 0.4em rgba(#000,0.25);
 $timeline-panel-arrow-size: 15px;
 $timeline-panel-arrow-padding: 15px;
 
-$dot-bg: #333;
+$dot-bg: $gray-dark;
 $dot-hover-bg: orangered;
 $dot-size: 50px;
 $dot-hover-size: 1.6rem;
@@ -111,6 +90,39 @@ $label-padding: 0.4rem;
 $label-divider: 1px solid rgba(#fff,0.8);
 
 $scroll-thumb: transparent;//#f1f5f7;
+
+#timelineWrapper {
+  overflow: scroll;
+  scroll-behavior: smooth;
+}
+
+#timeline {
+  .controls {
+    position: fixed;
+    bottom: 4rem;
+    width: 100%;
+    margin-left: 70vw;
+    font-size: 1.75rem;
+    cursor: pointer;
+    i {
+      margin: 1rem;
+      &:hover {
+        color: $brand-primary;
+        transition: all .2s ease;
+      }
+    }
+  }
+  .play{
+    animation: anim 20s infinite linear;
+  }
+  .pause{
+      animation-play-state: paused;
+  }
+  @keyframes anim { 
+      0%   {transform: translateX(0%);}
+      100% {transform: translateX(-100%);}
+  }
+}
 
 .timeline,
 .timeline-horizontal {
@@ -190,7 +202,7 @@ $scroll-thumb: transparent;//#f1f5f7;
       top: $timeline-gutter;
       left: 50%;
       margin-left: -25px;
-      background-color: #333;
+      background-color: $gray-dark;
       border: 3px solid #ffffff;
       z-index: 100;
       border-top-right-radius: 50%;
@@ -240,14 +252,13 @@ $scroll-thumb: transparent;//#f1f5f7;
           height: auto;
         }
         .img-overlay {
-          background: #333;
+          background: $gray-dark;
           position: relative;
           display: block;
           top: 0;
           left:0;
           width:100%;
           height:100%;
-          background: rgba(33,33,33,0.85);
           padding: 1rem;
           transition: all .25s ease;  
         }
@@ -274,11 +285,9 @@ $scroll-thumb: transparent;//#f1f5f7;
     .desc {
       margin: 1rem 0 0;
       padding: .5rem;
-      // font-family: 'ATC Overlook';
       letter-spacing: 0.1em;
-      text-transform: uppercase;
       font-weight: bold;
-      font-size: 10px;
+      font-size: 11px;
       line-height: 1.125;
       color: turquoise;
     }
