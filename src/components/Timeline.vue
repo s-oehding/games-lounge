@@ -85,17 +85,19 @@ export default {
 
 <style lang="scss">
 
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+$timeline-bg: #fbfbfb;
+$timeline-height: 10px;
+$timeline-border-color: #999;
+$timeline-border-width: 1px;
+$timeline-gutter: 20px;
+$timeline-shadow: 0 0 2rem 0 rgba(#000,0.25), inset 0 0 0.4em rgba(#000,0.25);
 
-$timeline-bg: #333;//#e7eff1;
-$timeline-height: 0.7rem;
-$timeline-border: #999;
-$timeline-shadow: 0 0 2rem 0 rgba(#000,0.1), inset 0 0 0.4em rgba(#000,0.1);
-$timeline-border-width: 0.2rem;
+$timeline-panel-arrow-size: 15px;
+$timeline-panel-arrow-padding: 15px;
 
 $dot-bg: #333;
 $dot-hover-bg: orangered;
-$dot-size: 1.2rem;
+$dot-size: 50px;
 $dot-hover-size: 1.6rem;
 $dot-border: #666;
 $dot-shadow: 0 0.1rem 1rem 0 rgba(#000,0.1), inset 0 0 0.4em rgba(#666,0.1), inset 0 0.4rem 0.1rem rgba(#666,0.3);
@@ -120,27 +122,25 @@ $scroll-thumb: transparent;//#f1f5f7;
 .timeline {
 
   &:before {
-    top: 40px;
+    top: $timeline-gutter * 2;
     bottom: 0;
     position: absolute;
     content: " ";
-    width: 3px;
-    background-color: #eeeeee;
+    width: $timeline-height;
+    background-color: $timeline-bg;
     left: 50%;
     margin-left: -1.5px;
   }
 
   .timeline-item {
     display: table-cell;
-    // height: 280px;
     width: 8vw;
-    // min-width: 320px;
     float: none !important;
     padding-left: 0px;
-    padding-right: 20px;
+    padding-right: $timeline-gutter;
     margin: 0 auto;
     vertical-align: bottom;
-    margin-bottom: 20px;
+    margin-bottom: $timeline-gutter;
     position: relative;
     top: 2px;
     left: 0px;
@@ -169,7 +169,7 @@ $scroll-thumb: transparent;//#f1f5f7;
     &:nth-child(even) {
       .timeline-panel {
         float: right;
-        left: 16px;
+        left: $timeline-gutter;
         &:before {
           border-left-width: 0;
           border-right-width: 14px;
@@ -179,15 +179,15 @@ $scroll-thumb: transparent;//#f1f5f7;
       }
     }
 
-    .timeline-badge {
+    .timeline-dot {
       color: #fff;
-      width: 54px;
-      height: 54px;
-      line-height: 52px;
-      font-size: 22px;
+      width: $dot-size;
+      height: $dot-size;
+      line-height: $dot-size;
+      font-size: $dot-size / 2;
       text-align: center;
       position: absolute;
-      top: 18px;
+      top: $timeline-gutter;
       left: 50%;
       margin-left: -25px;
       background-color: #333;
@@ -198,42 +198,39 @@ $scroll-thumb: transparent;//#f1f5f7;
       border-bottom-right-radius: 50%;
       border-bottom-left-radius: 50%;
       i, .fa, .glyphicon {
-        top: 2px;
-        left: 0px;
+        height: $dot-size;
+        line-height: $dot-size;
+        font-size: $dot-size / 2;
       }
     }
 
     .timeline-date {
       display: inline-block;
-    position: absolute;
-    bottom: -1rem;
-    left: 4.2rem;
+      position: absolute;
+      bottom: -1rem;
+      left: 4.2rem;
     }
 
     .timeline-panel {
       position: relative;
       width: 33.33vw;
       float: left;
-      right: 16px;
-      // border: 1px solid #dedede;
-      // background: #ffffff;
+      right: $timeline-gutter;
       border-radius: 2px;
       padding: 0;
-      // height: 55vh;
-      // -webkit-box-shadow: 0 1px 6px rgba(33, 33, 33, 0.175);
-      // box-shadow: 0 1px 6px rgba(33, 33, 33, 0.175);
-      // 
       
       &:before {
         position: absolute;
-        top: 26px;
-        right: -16px;
         display: inline-block;
-        border-top: 16px solid transparent;
-        border-left: 16px solid #fff;
+        border-top: $timeline-panel-arrow-size solid transparent;
+        border-left: $timeline-panel-arrow-size solid #fff;
         border-right: 0 solid #fff;
-        border-bottom: 16px solid transparent;
+        border-bottom: $timeline-panel-arrow-size solid transparent;
         content: " ";
+        top: auto;
+        bottom: -$timeline-panel-arrow-size;
+        left: $timeline-panel-arrow-padding;
+        right: auto;
       }
       .img-wrapper {
         overflow: hidden;
@@ -290,84 +287,58 @@ $scroll-thumb: transparent;//#f1f5f7;
   &.timeline-horizontal {
     list-style: none;
     position: relative;
-    padding: 20px 0px 20px 0px;
+    padding: $timeline-gutter 0px $timeline-gutter 0px;
     display: inline-block;
 
+    &:before {
+      height: $timeline-height;
+      top: auto;
+      bottom: calc(#{$timeline-gutter} - calc(#{$timeline-height / 5}));
+      left: 56px;
+      right: 0;
+      width: 100%;
+      margin-bottom: $timeline-gutter;
+    }
+
     .timeline-item {
+        display: table-cell;
+        min-width: 320px;
+        float: none !important;
+        padding-left: 0px;
+        padding-right: $timeline-gutter;
+        margin: 0 auto;
+        vertical-align: bottom;
       &:before,
       &:after {
         display: none;
       }
       .timeline-panel {
+          top: auto;
+          bottom: 64px;
+          display: inline-block;
+          float: none !important;
+          left: 0 !important;
+          right: 0 !important;
+          width: 100%;
+          margin-bottom: $timeline-gutter;
         &:before {
           top: auto;
-          bottom: -16px;
-          left: 28px !important;
+          bottom: -$timeline-panel-arrow-size;
           right: auto;
-          border-right: 16px solid transparent !important;
-          border-top: 16px solid #fff !important;
+          border-right: $timeline-panel-arrow-size solid transparent !important;
+          border-top: $timeline-panel-arrow-size solid #fff !important;
           border-bottom: 0 solid #fff !important;
-          border-left: 16px solid transparent !important;
+          border-left: $timeline-panel-arrow-size solid transparent !important;
+         left: $timeline-panel-arrow-padding;
         }
       }
+    }
+    .timeline-dot {
+      top: auto;
+      bottom: 0px;
+      left: calc((#{$timeline-gutter} + #{$timeline-panel-arrow-padding}) - calc(#{$timeline-panel-arrow-size} / 4.444));
     }
   }
 }
 
-
-.timeline-horizontal {
-  list-style: none;
-  position: relative;
-  padding: 20px 0px 20px 0px;
-  display: inline-block;
-}
-.timeline-horizontal:before {
-  height: 3px;
-  top: auto;
-  bottom: 26px;
-  left: 56px;
-  right: 0;
-  width: 100%;
-  margin-bottom: 20px;
-}
-.timeline-horizontal .timeline-item {
-  display: table-cell;
-  height: 280px;
-  width: 20%;
-  min-width: 320px;
-  float: none !important;
-  padding-left: 0px;
-  padding-right: 20px;
-  margin: 0 auto;
-  vertical-align: bottom;
-}
-.timeline-horizontal .timeline-item .timeline-panel {
-  top: auto;
-  bottom: 64px;
-  display: inline-block;
-  float: none !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100%;
-  margin-bottom: 20px;
-}
-.timeline-horizontal .timeline-item .timeline-panel:before {
-  top: auto;
-  bottom: -16px;
-  left: 28px !important;
-  right: auto;
-  border-right: 16px solid transparent !important;
-  border-top: 16px solid #777 !important;
-  border-bottom: 0 solid #777 !important;
-  border-left: 16px solid transparent !important;
-}
-.timeline-horizontal .timeline-item:before,
-.timeline-horizontal .timeline-item:after {
-  display: none;
-}
-.timeline-horizontal .timeline-item .timeline-badge {
-  top: auto;
-  bottom: 0px;
-  left: 43px;
-}
 </style>
