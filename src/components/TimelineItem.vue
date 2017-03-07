@@ -5,15 +5,11 @@
       <div class="img-wrapper">
         <img v-if="coverImage.image" :src="coverImage.image" :alt="this.name">
         <img v-else src="//placehold.it/250/250" :alt="this.name">
-        <div class="img-overlay">
-          <p class="desc">{{ this.name }}</p>
-          <p class="desc"><i class="fa fa-book"></i> {{ this.summary }}</p>
-        </div>
       </div>
       <div class="content-wrapper">
         <h6>{{ this.name }}</h6>
+        <router-link :to="{ name: 'game', params: { id: this.id }}" class="btn btn-success">View Details</router-link>
         <p class="desc"><span class="text-muted">Score</span> {{ this.developer }}</p>
-        <!-- <p class="desc">{{ this.summary }}</p> -->
       </div>
     </div>
     <div class="timeline-date"><i class="fa fa-calendar" aria-hidden="true"></i> {{ this.releasedate }}</div>
@@ -25,7 +21,7 @@
 import Igdb from 'igdb-api-node'
 export default {
   name: 'timeline-item',
-  props: ['developer', 'cover', 'name', 'summary', 'releasedate'],
+  props: ['id', 'developer', 'cover', 'name', 'summary', 'releasedate'],
   computed: {
     coverImage: function () {
       return {

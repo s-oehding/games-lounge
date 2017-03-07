@@ -1,45 +1,41 @@
 <template>
-    <div id="app">
-        <div id="content-wrapper">
-            <sidebar></sidebar>
-            <div id="content">
-              <navbar></navbar>
-              <div class="container-fluid main">
-                <timeline :data="this.games" :ready="this.ready"></timeline>
-              </div>
-
-              <footer class="footer">
-                  <div class="col-sm-12">
-                      <a href="#" title="">Impressum</a> <span>|</span> <a href="#" title="">Datenschutz</a>
-                  </div>
-              </footer>
-            </div>
+  <div id="content-wrapper">
+      <sidebar></sidebar>
+      <div id="content">
+        <navbar></navbar>
+        <div class="main">
+            <router-view></router-view>
         </div>
-    </div>
+        <footer class="footer">
+            <div class="col-sm-12">
+                <a href="#" title="">Impressum</a> <span>|</span> <a href="#" title="">Datenschutz</a>
+            </div>
+        </footer>
+      </div>
+  </div>
 </template>
 
 <script>
-import Navbar from './components/Navbar'
-import Timeline from './components/Timeline'
-import Sidebar from './components/Sidebar'
 
 import Igdb from 'igdb-api-node'
 global.mashapeKey = 'fPuFjE8ECkmshCTfCozasOklqoXjp1SZdgFjsnEWNh6uXrkfxP'
 
 export default {
   name: 'app',
-  components: {
-    Navbar, Timeline, Sidebar
-  },
   data () {
     return {
+      companies: {},
       games: {},
+      platforms: {},
       searchString: 'zelda',
+      loading: true,
       ready: false
     }
   },
   mounted () {
     this.fetchGames()
+    this.getCompanies()
+    this.getPlatforms()
   },
   methods: {
     fetchGames () {
@@ -47,6 +43,37 @@ export default {
       .then(
       response => {
         this.games = response.body
+        this.$nextTick(function () {
+          this.loading = false
+          this.ready = true
+        })
+      },
+      error => {
+        console.log(error)
+        this.loading = false
+      })
+    },
+    getPlatforms () {
+      this.loading = true
+      Igdb.platforms({ offset: 0, fields: '*' })
+      .then(
+      response => {
+        this.platforms = response.body
+        this.$nextTick(function () {
+          this.loading = false
+        })
+      },
+      error => {
+        console.log(error)
+        this.loading = false
+      })
+    },
+    getCompanies () {
+      this.loading = true
+      Igdb.companies({ fields: '*' })
+      .then(
+      response => {
+        this.companies = response.body
         this.$nextTick(function () {
           this.ready = true
         })
@@ -123,7 +150,7 @@ h1, h2, h3, h4, h5, h6, a, button, .btn, input {
     width: calc(100% - #{$sidebarWidth});
     display: inline-block;
     float: left;
-    // overflow: scroll;
+    overflow: scroll;
     
     .main {
       max-height: calc(100vh - calc(#{$footer-height} + #{$header-height}));

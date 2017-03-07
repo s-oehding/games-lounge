@@ -6,6 +6,7 @@
           v-if="ready"
           v-for="(game, index) in sorted.data"
           :key="game.first_release_date"
+          :id="game.id"
           :cover="game.cover"
           :developer="game.aggregated_rating"
           :name="game.name"
@@ -94,6 +95,7 @@ $scroll-thumb: transparent;//#f1f5f7;
 #timelineWrapper {
   overflow: scroll;
   scroll-behavior: smooth;
+  padding: 2rem;
 }
 
 #timeline {
@@ -276,7 +278,7 @@ $scroll-thumb: transparent;//#f1f5f7;
         display:flex;
         align-items:flex-start;
         flex-direction:column;
-        height:130px;
+        min-height:130px;
         width:100%;
         background: #ffffff;
       }
@@ -303,15 +305,15 @@ $scroll-thumb: transparent;//#f1f5f7;
       height: $timeline-height;
       top: auto;
       bottom: calc(#{$timeline-gutter} - calc(#{$timeline-height / 5}));
-      left: 56px;
+      left: -2rem;
       right: 0;
-      width: 100%;
+      width: 105%;
       margin-bottom: $timeline-gutter;
     }
 
     .timeline-item {
         display: table-cell;
-        min-width: 320px;
+        min-width: 16vw;
         float: none !important;
         padding-left: 0px;
         padding-right: $timeline-gutter;
