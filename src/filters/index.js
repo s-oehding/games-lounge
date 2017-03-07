@@ -6,5 +6,5 @@ export function toTime (timestamp) {
 }
 
 export function toDate (timestamp) {
-  return moment(timestamp).format('MM.DD.YYYY')
+  return moment(timestamp).format('DD.MM.YYYY')
 }
