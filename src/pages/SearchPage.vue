@@ -1,18 +1,38 @@
 <template>
-  <div class="row">
-    <div class="col-sm-12">
-      <h2 class="md-headline">Games Lounge</h2>
-      <p class="lead">Your ultimate source for game history facts</p>
-      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+  <div class="container-fluid">
+    <div class="row">
+      <h1>Search</h1>
+      <hr>
     </div>
-
-    <div class="col-sm-12">
-      <h2 class="md-headline">Full-featured</h2>
-      <p>You can generate and use themes dynamically, use components on demand, take advantage of UI Elements and Components with an ease-to-use API and more...</p>
+    <div class="row">
+      <v-client-table :data.sync="this.$parent.games" :columns.sync="columns" :options="options"></v-client-table>
     </div>
   </div>
 </template>
 
+<script>
+import Image from '../components/data-table/Image'
+import Link from '../components/data-table/Link'
+import Releasedate from '../components/data-table/Releasedate'
+
+export default {
+  name: 'search-page',
+  data () {
+    return {
+      columns: ['Image', 'Link', 'category', 'publishers', 'category', 'game_modes', 'player_perspective', 'Releasedate', 'keywords'],
+      options: {
+        templates: {
+          Image, Link, Releasedate
+        }
+      }
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
-  
+  .VueTables  {
+    width: 100%;
+    padding: 2rem;
+  }
 </style>

@@ -27,7 +27,7 @@ export default {
       companies: {},
       games: {},
       platforms: {},
-      searchString: 'zelda',
+      searchString: 'pong',
       loading: true,
       ready: false
     }

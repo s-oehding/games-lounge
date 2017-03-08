@@ -1,7 +1,7 @@
 <template>
   <div class="container game-container">
     <div class="row">
-      <div class="col-sm-12 cover-image">
+      <div v-if="gameScreenshots" class="col-sm-12 cover-image">
         <ul class="screen-slider">
           <li  v-for="img in gameScreenshots" class="slider-item">
             <img :src="img" alt="">
@@ -70,6 +70,7 @@ import Igdb from 'igdb-api-node'
 import { toDate } from '../filters'
 
 export default {
+  name: 'game-detail',
   components: {
   },
   data () {
@@ -115,7 +116,7 @@ export default {
         }
       } else {
         return {
-          image: 'http://placehold.it/500/500'
+          image: 'https://unsplash.it/500/500/?random'
         }
       }
     }
@@ -128,7 +129,6 @@ export default {
 
 <style lang="scss">
 .game-container {
-  overflow: scroll;
   margin-top: 55px;
   margin-bottom: 60px;
   .slick-slide {

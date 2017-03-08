@@ -10,9 +10,9 @@
           <li class="nav-item"><router-link class="nav-link" to="/search">Search</router-link></li>
           <li class="nav-item"><router-link class="nav-link" to="/timeline">Timeline</router-link></li>
         </ul>
-        <form v-on:submit.prevent="fetchGames" class="form-inline my-2 my-lg-0">
+        <form v-on:submit.prevent="$parent.fetchGames" class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search Games" v-model="$parent.searchString">
-          <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="$parent.fetchGames">Search</button>
+          <router-link v-on:click.prevent="fetchGames" to="/search" class="btn btn-outline-success my-2 my-sm-0">Search</router-link>
         </form>
       </div>
     </nav>

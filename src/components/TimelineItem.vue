@@ -4,7 +4,7 @@
     <div class="timeline-panel">
       <div class="img-wrapper">
         <img v-if="coverImage.image" :src="coverImage.image" :alt="this.name">
-        <img v-else src="//placehold.it/250/250" :alt="this.name">
+        <img v-else src="https://placehold.it/250/250" :alt="this.name">
       </div>
       <div class="content-wrapper">
         <h6>{{ this.name }}</h6>
