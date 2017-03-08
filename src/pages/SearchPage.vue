@@ -5,12 +5,14 @@
       <hr>
     </div>
     <div class="row">
-      <v-client-table :data.sync="this.$parent.games" :columns.sync="columns" :options="options"></v-client-table>
+      <v-client-table :data.sync="sorted.data" :columns.sync="columns" :options="options"></v-client-table>
     </div>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
+
 import Image from '../components/data-table/Image'
 import Link from '../components/data-table/Link'
 import Releasedate from '../components/data-table/Releasedate'
@@ -24,6 +26,13 @@ export default {
         templates: {
           Image, Link, Releasedate
         }
+      }
+    }
+  },
+  computed: {
+    sorted: function () {
+      return {
+        data: _.orderBy(this.$parent.games, ['Object', 'first_release_date'], ['asc'])
       }
     }
   }

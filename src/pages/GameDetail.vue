@@ -19,8 +19,10 @@
       </div>
       <div class="col-sm-12 col-md-6">
         <h4>Story:</h4>
+        <p>{{ game.storyline }}</p>
+        <hr>
+        <h4>Summary:</h4>
         <p>{{ game.summary }}</p>
-
         <div class="card col-sm-12">
           <div class="card-img-top">
             <img v-if="coverImage.image" :src="coverImage.image" :alt="game.name">

@@ -27,7 +27,7 @@ export default {
       companies: {},
       games: {},
       platforms: {},
-      searchString: 'pong',
+      searchString: 'super mario',
       loading: true,
       ready: false
     }
@@ -39,7 +39,17 @@ export default {
   },
   methods: {
     fetchGames () {
-      Igdb.games({ limit: 50, offset: 0, search: this.searchString, fields: '*' })
+      Igdb.games({
+        limit: 50,
+        offset: 0,
+        search: this.searchString,
+        filters: {
+          'summary': 'exists',
+          'storyline': 'exists',
+          'screenshots': 'exists',
+          'cover': 'exists'
+        },
+        fields: '*' })
       .then(
       response => {
         this.games = response.body
@@ -55,7 +65,7 @@ export default {
     },
     getPlatforms () {
       this.loading = true
-      Igdb.platforms({ offset: 0, fields: '*' })
+      Igdb.platforms({ limit: '50', offset: 0, fields: '*' })
       .then(
       response => {
         this.platforms = response.body
